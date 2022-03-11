@@ -11,7 +11,11 @@ export function StackMenu() {
     <Stack.Navigator>
       {isAuth ? (
         <Stack.Group>
-          <Stack.Screen name="TabsMenu" component={TabsMenu} />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="TabsMenu"
+            component={TabsMenu}
+          />
         </Stack.Group>
       ) : (
         <Stack.Group>

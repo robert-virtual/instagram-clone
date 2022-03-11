@@ -14,7 +14,6 @@ import { launchCameraAsync } from "expo-image-picker";
 
 import { MaterialIcons } from "@expo/vector-icons";
 import axios from "axios";
-import { AuthContext } from "../context";
 
 function userReducer(prevState, payload) {
   return { ...prevState, ...payload };
@@ -57,7 +56,6 @@ export function Register() {
     };
   }
 
-  const { dispatch } = useContext(AuthContext);
   const [popup, setPopup] = useState(false);
   async function sendData() {
     try {
@@ -82,10 +80,7 @@ export function Register() {
       const data = await res.json();
       if (data.accessToken) {
         console.log("accessToken!!!");
-        dispatch({
-          type: "tokens",
-          payload: { aToken: data.accessToken, rToken: data.refreshToken },
-        });
+
         return;
       }
       if (data.msg) {
