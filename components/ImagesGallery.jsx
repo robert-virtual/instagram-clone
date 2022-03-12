@@ -9,7 +9,7 @@ import {
   useWindowDimensions,
   Image,
 } from "react-native";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { ImagesContext } from "../context";
 const { round } = Math;
@@ -17,21 +17,49 @@ const { round } = Math;
 export function ImagesGallery({ visible, setVisible, setImage }) {
   const { width } = useWindowDimensions();
   const { cargando, photos } = useContext(ImagesContext);
+  const [selectedImage, setSelectedImage] = useState();
   function selectImage(item) {
-    setVisible(false);
+    setSelectedImage(item);
     setImage(item);
   }
   return (
     <Modal animationType="slide" visible={visible} style={styles.modal}>
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
         <TouchableOpacity
           style={styles.close}
           onPress={() => setVisible(false)}
         >
           <AntDesign name="close" size={24} color="black" />
         </TouchableOpacity>
-        {cargando ? <Text>Imagenes: {photos.length}</Text> : <Text />}
+        {!cargando ? <Text>Imagenes: {photos.length}</Text> : <Text />}
+        {!cargando ? (
+          <TouchableOpacity
+            style={styles.close}
+            onPress={() => setVisible(false)}
+          >
+            <AntDesign name="arrowright" size={24} color="black" />
+          </TouchableOpacity>
+        ) : (
+          <Text />
+        )}
       </View>
+      {selectedImage ? (
+        <Image
+          source={{
+            uri: selectedImage.uri,
+            width: width,
+            height: width,
+          }}
+        />
+      ) : (
+        <View />
+      )}
       {cargando ? (
         <ActivityIndicator size={"large"} color="blue" />
       ) : (

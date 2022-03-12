@@ -1,9 +1,16 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Activity, Buscar, Home, Profile, Reels } from "../pages";
 import { Feather } from "@expo/vector-icons";
+import { AuthContext } from "../context";
+import { useContext } from "react";
+import { Image } from "react-native";
+import { HomeHeaderRight } from "../components";
 const Tabs = createBottomTabNavigator();
 
 export function TabsMenu() {
+  const { user } = useContext(AuthContext);
+  console.log(user);
+  console.log(user.imageUrl);
   return (
     <Tabs.Navigator
       screenOptions={{
@@ -12,6 +19,8 @@ export function TabsMenu() {
     >
       <Tabs.Screen
         options={{
+          headerShown: false,
+          headerTitle: "Instagram",
           tabBarIcon: ({ color, size }) => (
             <Feather name="home" size={size} color={color} />
           ),
@@ -49,7 +58,14 @@ export function TabsMenu() {
       <Tabs.Screen
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Feather name="user" size={size} color={color} />
+            <Image
+              source={{ uri: user.imageUrl, width: size, height: size }}
+              style={{
+                borderColor: color,
+                borderWidth: 1,
+                borderRadius: size / 2,
+              }}
+            />
           ),
         }}
         name="Profile"

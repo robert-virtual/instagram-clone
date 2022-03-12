@@ -1,4 +1,5 @@
 // Stack
+export { Splash } from "./Splash";
 export { Login } from "./Login";
 export { Register } from "./Register";
 // Tabs

@@ -9,17 +9,18 @@ import {
 } from "react-native";
 import { useState, useReducer, useContext } from "react";
 import { ImagesGallery, Input, PrimaryButton } from "../components";
-import { useNavigation } from "@react-navigation/native";
 import { launchCameraAsync } from "expo-image-picker";
 
 import { MaterialIcons } from "@expo/vector-icons";
-import axios from "axios";
+import { AuthContext } from "../context";
+import { api_url } from "../constantes";
 
 function userReducer(prevState, payload) {
   return { ...prevState, ...payload };
 }
 
-export function Register() {
+export function Register({ navigation }) {
+  const { setAToken, setRToken } = useContext(AuthContext);
   const [visibleModal, setVisibleModal] = useState(false);
   const [state, dispatchUser] = useReducer(userReducer, {
     name: "",
@@ -28,10 +29,9 @@ export function Register() {
     password2: "",
   });
   const [image, setImage] = useState();
-  const { navigate } = useNavigation();
   function navegar(pagina = "Login") {
     return (e) => {
-      navigate(pagina);
+      navigation.replace(pagina);
     };
   }
   function togglePopup(value = false) {
@@ -70,7 +70,7 @@ export function Register() {
           form.append(e, state[e]);
         }
       });
-      const res = await fetch("http://192.168.0.21:3000/api/auth/register", {
+      const res = await fetch(api_url + "/auth/register", {
         body: form,
         method: "post",
         headers: {
@@ -80,7 +80,8 @@ export function Register() {
       const data = await res.json();
       if (data.accessToken) {
         console.log("accessToken!!!");
-
+        setRToken(data.refreshToken);
+        setAToken(data.accessToken);
         return;
       }
       if (data.msg) {

@@ -1,12 +1,13 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useState } from "react";
-import { Login, Register } from "../pages";
+import { useState, useContext } from "react";
+import { AuthContext } from "../context";
+import { Login, Register, Splash } from "../pages";
 import { TabsMenu } from "./TabsMenu";
 
 const Stack = createNativeStackNavigator();
 
 export function StackMenu() {
-  const [isAuth, setIsAuth] = useState(false);
+  const { isAuth } = useContext(AuthContext);
   return (
     <Stack.Navigator>
       {isAuth ? (
@@ -19,6 +20,11 @@ export function StackMenu() {
         </Stack.Group>
       ) : (
         <Stack.Group>
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="Splash"
+            component={Splash}
+          />
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="Register" component={Register} />
         </Stack.Group>

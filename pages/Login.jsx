@@ -1,25 +1,27 @@
 import { Text, StyleSheet, View, TouchableOpacity } from "react-native";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Input, PrimaryButton } from "../components";
-import { useNavigation } from "@react-navigation/native";
+import { AuthContext } from "../context";
 
-export function Login() {
-  const { navigate } = useNavigation();
+export function Login({ navigation }) {
   const [correo, setCorreo] = useState("");
   const [clave, setClave] = useState("");
 
   function navegar(pagina = "Register") {
     return (e) => {
-      navigate(pagina);
+      navigation.replace(pagina);
     };
   }
-
+  const { setIsAuth } = useContext(AuthContext);
+  function sendData() {
+    setIsAuth(true);
+  }
   return (
     <View style={styles.container}>
       <Text>Inicio de Session</Text>
       <Input placeholder={"Correo"} onChangeText={setCorreo} value={correo} />
       <Input placeholder={"Clave"} onChangeText={setClave} value={clave} />
-      <PrimaryButton>Entrar</PrimaryButton>
+      <PrimaryButton onPress={sendData}>Entrar</PrimaryButton>
       <TouchableOpacity onPress={navegar()}>
         <Text>No tengo una cuenta</Text>
       </TouchableOpacity>
