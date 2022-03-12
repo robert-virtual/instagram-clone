@@ -4,13 +4,10 @@ import { Feather } from "@expo/vector-icons";
 import { AuthContext } from "../context";
 import { useContext } from "react";
 import { Image } from "react-native";
-import { HomeHeaderRight } from "../components";
 const Tabs = createBottomTabNavigator();
 
 export function TabsMenu() {
   const { user } = useContext(AuthContext);
-  console.log(user);
-  console.log(user.imageUrl);
   return (
     <Tabs.Navigator
       screenOptions={{
