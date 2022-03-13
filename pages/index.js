@@ -3,6 +3,7 @@ export { Splash } from "./Splash";
 export { Login } from "./Login";
 export { Register } from "./Register";
 export { Messages } from "./Messages";
+export { Camara } from "./Camara";
 // Tabs
 export { Home } from "./Home";
 export { Reels } from "./Reels";

@@ -9,14 +9,16 @@ import {
   useWindowDimensions,
   Image,
 } from "react-native";
-import { useContext, useState } from "react";
+import { useContext, useState, memo } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { ImagesContext } from "../context";
+import { GalleryItem } from "./GalleryItem";
+import { uuid } from "../constantes";
 const { round } = Math;
 
-export function ImagesGallery({ visible, setVisible, setImage }) {
+export const ImagesGallery = memo(({ visible, setVisible, setImage }) => {
   const { width } = useWindowDimensions();
-  const { cargando, photos } = useContext(ImagesContext);
+  const { cargando, photos, totalCount } = useContext(ImagesContext);
   const [selectedImage, setSelectedImage] = useState();
   function selectImage(item) {
     setSelectedImage(item);
@@ -37,7 +39,13 @@ export function ImagesGallery({ visible, setVisible, setImage }) {
         >
           <AntDesign name="close" size={24} color="black" />
         </TouchableOpacity>
-        {!cargando ? <Text>Imagenes: {photos.length}</Text> : <Text />}
+        {!cargando ? (
+          <Text>
+            Imagenes: {photos.length}/{totalCount}
+          </Text>
+        ) : (
+          <Text />
+        )}
         {!cargando ? (
           <TouchableOpacity
             style={styles.close}
@@ -66,17 +74,15 @@ export function ImagesGallery({ visible, setVisible, setImage }) {
         <FlatList
           numColumns={round(width / 100)}
           data={photos}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => uuid()}
           renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => selectImage(item)}>
-              <Image source={{ uri: item.uri, width: 100, height: 100 }} />
-            </TouchableOpacity>
+            <GalleryItem item={item} onPress={selectImage} />
           )}
         />
       )}
     </Modal>
   );
-}
+});
 
 const styles = StyleSheet.create({
   container: {

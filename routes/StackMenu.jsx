@@ -1,5 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { AuthContext } from "../context";
 import { Login, Register, Splash } from "../pages";
 import { TabsMenu } from "./TabsMenu";

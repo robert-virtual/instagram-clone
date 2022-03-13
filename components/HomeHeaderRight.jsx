@@ -2,14 +2,21 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
 import { useState } from "react";
 import { ImagesGallery } from "./ImagesGallery";
+import { useNavigation } from "@react-navigation/native";
 
 export function HomeHeaderRight() {
+  const { navigate } = useNavigation();
   function itemPress(type = "") {
     return (e) => {
       setCreateVisible(false);
       if (type == "Post") {
         setShowGallery(true);
       }
+    };
+  }
+  function navegar(page) {
+    return (e) => {
+      navigate(page);
     };
   }
   const [image, setImage] = useState();
@@ -33,7 +40,7 @@ export function HomeHeaderRight() {
         >
           <MaterialCommunityIcons name="plus-box" size={26} color="black" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.btn}>
+        <TouchableOpacity style={styles.btn} onPress={navegar("Messages")}>
           <MaterialCommunityIcons
             name="facebook-messenger"
             size={26}
