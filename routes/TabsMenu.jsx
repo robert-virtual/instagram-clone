@@ -1,9 +1,10 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Activity, Buscar, Home, Profile, Reels } from "../pages";
+import { Activity, Buscar, Profile, Reels } from "../pages";
 import { Feather } from "@expo/vector-icons";
 import { AuthContext } from "../context";
 import { useContext } from "react";
 import { Image } from "react-native";
+import { TopTabs } from "./TopTabs";
 const Tabs = createBottomTabNavigator();
 
 export function TabsMenu() {
@@ -17,13 +18,12 @@ export function TabsMenu() {
       <Tabs.Screen
         options={{
           headerShown: false,
-          headerTitle: "Instagram",
           tabBarIcon: ({ color, size }) => (
             <Feather name="home" size={size} color={color} />
           ),
         }}
-        name="Home"
-        component={Home}
+        name="TopTabs"
+        component={TopTabs}
       />
       <Tabs.Screen
         options={{
