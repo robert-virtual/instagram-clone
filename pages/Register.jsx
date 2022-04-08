@@ -8,8 +8,8 @@ import {
   Alert,
 } from "react-native";
 import { useState, useReducer, useContext } from "react";
-import { ImagesGallery, Input, PrimaryButton } from "../components";
-import { launchCameraAsync } from "expo-image-picker";
+import { Input, PrimaryButton } from "../components";
+import { launchCameraAsync, launchImageLibraryAsync } from "expo-image-picker";
 
 import { MaterialIcons } from "@expo/vector-icons";
 import { AuthContext } from "../context";
@@ -21,7 +21,6 @@ function userReducer(prevState, payload) {
 
 export function Register({ navigation }) {
   const { setAToken, setRToken } = useContext(AuthContext);
-  const [visibleModal, setVisibleModal] = useState(false);
   const [state, dispatchUser] = useReducer(userReducer, {
     name: "",
     email: "",
@@ -52,7 +51,8 @@ export function Register({ navigation }) {
         return;
       }
       //
-      setVisibleModal(true);
+      const res = await launchImageLibraryAsync();
+      setImage(res);
     };
   }
 
@@ -143,11 +143,6 @@ export function Register({ navigation }) {
       <TouchableOpacity onPress={navegar()}>
         <Text>Ya tengo un cuenta</Text>
       </TouchableOpacity>
-      <ImagesGallery
-        setImage={setImage}
-        setVisible={setVisibleModal}
-        visible={visibleModal}
-      />
     </ScrollView>
   );
 }

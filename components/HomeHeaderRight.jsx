@@ -1,26 +1,16 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
 import { useState } from "react";
-import { ImagesGallery } from "./ImagesGallery";
 import { useNavigation } from "@react-navigation/native";
 
-export function HomeHeaderRight() {
+export function HomeHeaderRight({}) {
   const { navigate } = useNavigation();
-  function itemPress(type = "") {
-    return (e) => {
-      setCreateVisible(false);
-      if (type == "Post") {
-        setShowGallery(true);
-      }
-    };
-  }
+
   function navegar(page) {
     return (e) => {
       navigate(page);
     };
   }
-  const [image, setImage] = useState();
-  const [showGallery, setShowGallery] = useState(false);
   const [createVisible, setCreateVisible] = useState(false);
   return (
     <View
@@ -47,49 +37,7 @@ export function HomeHeaderRight() {
             color="black"
           />
         </TouchableOpacity>
-        {createVisible ? (
-          <View
-            style={{
-              position: "absolute",
-              top: 40,
-              right: 10,
-              backgroundColor: "#ebebeb",
-            }}
-          >
-            <TouchableOpacity style={styles.item} onPress={itemPress("Post")}>
-              <Text>Post</Text>
-              <MaterialCommunityIcons name="post" size={26} color="black" />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.item}
-              onPress={itemPress("Historia")}
-            >
-              <Text>Historia</Text>
-              <MaterialCommunityIcons name="history" size={26} color="black" />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.item} onPress={itemPress("Reel")}>
-              <Text>Reel</Text>
-              <MaterialCommunityIcons name="movie" size={26} color="black" />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.item} onPress={itemPress("Live")}>
-              <Text>Live</Text>
-              <MaterialCommunityIcons
-                name="view-stream"
-                size={26}
-                color="black"
-              />
-            </TouchableOpacity>
-          </View>
-        ) : (
-          <View />
-        )}
       </View>
-
-      <ImagesGallery
-        setImage={setImage}
-        visible={showGallery}
-        setVisible={setShowGallery}
-      />
     </View>
   );
 }

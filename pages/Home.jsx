@@ -1,14 +1,14 @@
-import { FlatList, Text, StyleSheet, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useState } from "react";
+import { StatusBar, FlatList, Text, StyleSheet, View } from "react-native";
+import { useRef, useState } from "react";
 import { HomeHeaderRight } from "../components";
 
 export function Home() {
   const [posts, setPosts] = useState(
     Array.from(Array(50), (e, i) => `Post ${i}`)
   );
+  const sheetRef = useRef();
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <HomeHeaderRight />
       <FlatList
         contentContainerStyle={{ padding: 10 }}
@@ -20,7 +20,9 @@ export function Home() {
           </View>
         )}
       />
-    </SafeAreaView>
+
+      <StatusBar />
+    </View>
   );
 }
 

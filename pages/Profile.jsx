@@ -8,17 +8,21 @@ import {
 } from "react-native";
 import { useContext, useLayoutEffect, useState } from "react";
 import { AuthContext } from "../context";
-import { ImagesGallery } from "../components";
+import { launchImageLibraryAsync } from "expo-image-picker";
 
 export function Profile({ navigation }) {
-  const { user } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => <Text style={styles.bold}>{user.name}</Text>,
     });
   }, [user]);
-  const [imageVisible, setImageVisible] = useState(false);
   const [image, setImage] = useState();
+  async function showGallery() {
+    const res = await launchImageLibraryAsync();
+    setImage(res);
+    setUser({ ...user, imageUrl: res.uri });
+  }
   return (
     <ScrollView style={styles.container}>
       <View
@@ -28,14 +32,10 @@ export function Profile({ navigation }) {
           justifyContent: "space-around",
         }}
       >
-        <TouchableOpacity onPress={() => setImageVisible(true)}>
+        <TouchableOpacity onPress={showGallery}>
           <Image source={{ uri: user.imageUrl }} style={styles.rounded} />
         </TouchableOpacity>
-        <ImagesGallery
-          setImage={setImage}
-          setVisible={setImageVisible}
-          visible={imageVisible}
-        />
+
         <Text>Posts:20</Text>
         <Text>Followers:10</Text>
         <Text>Following:15</Text>
